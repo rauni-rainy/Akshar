@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// User Profile Model
+// ==========================================
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String?  // Optional for Google users
+  realName    String
+  displayName String
+  dob         DateTime?
+  googleId    String?  @unique
+  bio         String?
+  avatar      String?  
+  country     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships (One User can have many Posts, Comments, and Reviews)
+  posts     Post[]
+  comments  Comment[]
+  reviews   Review[]
+  likes     Like[]
+}
+
+// ==========================================
+// Written Content Model (Article, Poem, Story)
+// ==========================================
+model Post {
+  id          String   @id @default(uuid())
+  title       String
+  content     String   
+  type        String   // e.g., "ARTICLE", "POEM", "STORY"
+  prompt      String?
+  tags        String[]
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  reviews     Review[]
+  likes       Like[]
+}
+
+// ==========================================
+// Reader Comments Model
+// ==========================================
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  // Relationships
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+// ==========================================
+// Reader Reviews Model (e.g., 1-5 stars)
+// ==========================================
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int      // 1 to 5
+  content   String?
+  createdAt DateTime @default(now())
+
+  // Relationships
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+// ==========================================
+// Post Likes Model
+// ==========================================
+model Like {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // Relationships
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
