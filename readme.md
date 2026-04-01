@@ -10,7 +10,7 @@
 
 ---
 
-Akshar is a **full-stack literary platform** built to prove that writing spaces don't need to be algorithmically optimised to be useful — they need to be *honest*. No follower counts. No vanity metrics. No engagement farming. Just writers, their craft, and a structured peer review system that demands intellectual effort from every reader.
+Akshar is a **full-stack literary platform** built to prove that writing spaces don't need to be algorithmically optimised to be useful — they need to be *honest*. No engagement farming. Just writers, their craft, and a structured peer review system that demands intellectual effort from every reader.
 
 This repository demonstrates end-to-end full-stack engineering across a Neo-Brutalist design system, a recursive comment architecture, short-polling notifications, a debounced autosave editor, a multi-layer client-side filter pipeline, CSS-native mobile optimisations, and a paginated feed with a creative FM radio dial interface — all in production-ready TypeScript.
 
