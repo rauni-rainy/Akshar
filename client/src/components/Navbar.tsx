@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import NotificationBell from "./NotificationBell";
+
 export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
@@ -39,6 +41,7 @@ export default function Navbar() {
           {mounted && (
             user ? (
               <div className="flex items-center gap-4">
+                <NotificationBell />
                 <Link 
                   href="/profile" 
                   className="flex items-center justify-center border-[4px] border-black bg-white w-12 h-12 md:w-16 md:h-16 shadow-[2px_2px_0_0_#000] md:shadow-[4px_4px_0_0_#000] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all overflow-hidden relative group"

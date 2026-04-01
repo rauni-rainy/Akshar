@@ -5,6 +5,7 @@ import Link from "next/link";
 import CustomCursor from "../components/CustomCursor";
 import GoogleAuthProviderWrapper from "../components/GoogleAuthProviderWrapper";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-sans' });
 const bebasNeue = Bebas_Neue({ weight: '400', subsets: ['latin'], variable: '--font-heading' });
@@ -42,6 +43,8 @@ export default function RootLayout({
             {children}
           </GoogleAuthProviderWrapper>
         </main>
+        
+        <Footer />
       </body>
     </html>
   );

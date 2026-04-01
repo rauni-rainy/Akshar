@@ -4,7 +4,7 @@ import { AuthRequest } from '../middlewares/auth.middleware';
 
 export const createComment = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
-        const { content } = req.body;
+        const { content, parentId } = req.body;
         const { postId } = req.params;
         const authorId = req.user?.userId;
 
@@ -18,7 +18,7 @@ export const createComment = async (req: AuthRequest, res: Response): Promise<vo
             return;
         }
 
-        const comment = await addComment(authorId, postId as string, content);
+        const comment = await addComment(authorId, postId as string, content, parentId);
         res.status(201).json({ message: "Comment added successfully", comment });
     } catch (error: any) {
         res.status(400).json({ error: error.message });

@@ -1,14 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, Quote, Skull, Star, PenTool, Sparkles, Twitter, Instagram, Facebook, Linkedin, Github, Activity, ChevronRight } from "lucide-react";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("akshar_token");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
   const testimonials = [
-    { name: "SARAH CONNOR", role: "POET", text: "Finally, a platform that doesn't bury my words under algorithmic garbage. It's pure, unadulterated expression.", color: "bg-[#ffeb3b]", rotation: "-rotate-2" },
-    { name: "JAMES HOLDEN", role: "JOURNALIST", text: "The brutalist aesthetic matches the raw truth of the stories published here. I've found my digital agency.", color: "bg-[#ff7d85]", rotation: "rotate-2" },
-    { name: "ELLEN RIPLEY", role: "AUTHOR", text: "Akshar stripped away the metrics and brought back the art of writing. No likes, no follows, just words.", color: "bg-[#60a5fa]", rotation: "-rotate-1" },
-    { name: "ROY BATTY", role: "ESSAYIST", text: "I've seen things you people wouldn't believe. Now I can finally write about them without censorship.", color: "bg-white", rotation: "rotate-3" },
+    { name: "AANYA SHARMA", role: "POET", text: "Finally, a platform that doesn't bury my words under algorithmic garbage. It's pure, unadulterated expression.", color: "bg-[#ffeb3b]", rotation: "-rotate-2" },
+    { name: "KIRAN MEHTA", role: "JOURNALIST", text: "The brutalist aesthetic matches the raw truth of the stories published here. I've found my digital agency.", color: "bg-[#ff7d85]", rotation: "rotate-2" },
+    { name: "PRIYA NAIR", role: "AUTHOR", text: "Akshar stripped away the metrics and brought back the art of writing. No likes, no follows, just words.", color: "bg-[#60a5fa]", rotation: "-rotate-1" },
+    { name: "ARJUN BOSE", role: "ESSAYIST", text: "I've seen things you people wouldn't believe. Now I can finally write about them without censorship.", color: "bg-white", rotation: "rotate-3" },
   ];
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -68,7 +79,12 @@ export default function Home() {
           <div className="brutal-box bg-[#ffeb3b] p-6 md:p-8 shadow-[6px_6px_0_0_#000] md:shadow-[8px_8px_0_0_#000] hover:-translate-y-2 md:hover:-translate-y-4 hover:shadow-[10px_10px_0_0_#ff7d85] transition-all md:translate-y-12">
             <Skull size={48} className="mb-4 md:mb-6 text-black" />
             <h3 className="text-3xl md:text-4xl font-[family-name:var(--font-heading)] mb-4 uppercase">Death to Metrics</h3>
-            <p className="text-lg md:text-xl font-medium border-t-[3px] md:border-t-4 border-black pt-4">We removed like buttons. We killed follower counts. If someone wants to interact with your art, they must articulate a thought in the comments.</p>
+            <p className="text-lg md:text-xl font-medium border-t-[3px] md:border-t-4 border-black pt-4 mb-4">
+              We killed vanity. No likes. No follower counts. Instead — <span className="bg-black text-[#ffeb3b] px-1 font-black">peer review with inline annotation</span>. Real humans leaving real margin notes inside your actual words.
+            </p>
+            <Link href="/peer-review" className="inline-flex items-center gap-2 font-black text-sm uppercase tracking-widest border-b-4 border-black hover:border-[#ff7d85] transition-colors">
+              SEE THE PROTOCOL <ArrowRight size={16} />
+            </Link>
           </div>
 
           <div className="brutal-box bg-[#ff7d85] p-6 md:p-8 shadow-[6px_6px_0_0_#000] md:shadow-[8px_8px_0_0_#000] hover:-translate-y-2 md:hover:-translate-y-4 hover:shadow-[10px_10px_0_0_#ffeb3b] transition-all md:translate-y-24">
@@ -180,69 +196,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* 5. Extreme Brutalist Footer */}
-      <footer className="bg-black text-white w-full pt-16 md:pt-24 pb-8 md:pb-12 px-4 md:px-12 shadow-[inset_0_10px_0_0_#ff7d85] md:shadow-[inset_0_20px_0_0_#ff7d85] overflow-hidden">
-        <div className="w-full max-w-7xl mx-auto">
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 border-b-[6px] md:border-b-8 border-white pb-12 md:pb-16">
-
-            {/* Left Col: Brand & Copyright */}
-            <div className="md:col-span-4 lg:col-span-5 flex flex-col justify-between">
-              <div>
-                <h1 className="text-[5rem] md:text-[9rem] font-[family-name:var(--font-heading)] text-white uppercase leading-none mb-4 md:mb-6 tracking-tighter mix-blend-exclusion hover:text-[#ffeb3b] transition-colors cursor-crosshair">
-                  AKSHAR.
-                </h1>
-                <p className="text-lg md:text-2xl font-bold max-w-sm border-l-4 md:border-l-8 border-[#60a5fa] pl-4 md:pl-6 py-2 mb-8 md:mb-12 bg-white/10">
-                  Copyright © 2026. The Akshar Initiative. All rights reserved.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3 md:gap-4">
-                {[Twitter, Linkedin, Instagram, Facebook, Github].map((Icon, i) => (
-                  <a key={i} href="#" className="brutal-box bg-white text-black p-3 md:p-4 hover:bg-[#ffeb3b] hover:-translate-y-1 md:hover:-translate-y-2 hover-target transition-all border-[4px] md:border-[6px] border-transparent hover:border-black rounded-none shadow-[4px_4px_0_0_#ff7d85]">
-                    <Icon size={24} className="md:w-9 md:h-9" strokeWidth={2.5} />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Col: Navigation Grid */}
-            <div className="md:col-span-8 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 text-lg md:text-xl font-bold uppercase tracking-widest">
-              <div className="flex flex-col gap-4 md:gap-6">
-                <h4 className="text-[#ff7d85] font-[family-name:var(--font-heading)] text-3xl md:text-4xl border-b-[4px] md:border-b-[6px] border-[#ff7d85] pb-2 inline-block w-max mb-1 md:mb-2">PLATFORM</h4>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">ABOUT US</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">NEWSROOM</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">PROGRAMS</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">RESOURCES</Link>
-              </div>
-
-              <div className="flex flex-col gap-4 md:gap-6">
-                <h4 className="text-[#60a5fa] font-[family-name:var(--font-heading)] text-3xl md:text-4xl border-b-[4px] md:border-b-[6px] border-[#60a5fa] pb-2 inline-block w-max mb-1 md:mb-2">ENGAGE</h4>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">DONATE</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">GET INVOLVED</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">REQUEST GROUP</Link>
-                <Link href="/register" className="text-black bg-[#ffeb3b] hover:bg-white mt-4 md:mt-6 p-3 md:p-4 hover-target text-center border-4 border-black font-black shadow-[4px_4px_0_0_#fff]">SIGN UP NOW</Link>
-              </div>
-
-              <div className="flex flex-col gap-4 md:gap-6 sm:col-span-2 lg:col-span-1">
-                <h4 className="text-[#ffeb3b] font-[family-name:var(--font-heading)] text-3xl md:text-4xl border-b-[4px] md:border-b-[6px] border-[#ffeb3b] pb-2 inline-block w-max mb-1 md:mb-2">LEGAL</h4>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">PRIVACY POLICY</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">TERMS OF USE</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">CONTACT US</Link>
-                <Link href="#" className="hover:text-[#ffeb3b] hover:translate-x-2 transition-transform hover-target w-max">FAQ</Link>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="mt-10 md:mt-16 flex flex-col items-start gap-4 md:gap-6 font-bold uppercase tracking-widest text-[#a1a1aa]">
-            <p className="text-lg md:text-2xl text-white">DESIGNED OFF-GRID. CODED IN THE SHADOWS.</p>
-            <p className="border-[3px] md:border-4 border-white/20 p-3 md:p-4 hover:border-white transition-colors cursor-crosshair text-sm md:text-base">
-              DECENTRALIZED OPERATIONS HQ, MA 02138
-            </p>
-          </div>
-        </div>
-      </footer>
 
       {/* Global CSS for hiding scrollbar in carousel while keeping functionality */}
       <style dangerouslySetInnerHTML={{

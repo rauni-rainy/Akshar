@@ -154,5 +154,84 @@ body {
   40% { transform: skew(10deg); }
   60% { transform: skew(-5deg); }
   80% { transform: skew(5deg); }
-  100% { transform: skew(0deg); }
+}
+
+/* Rich Text Content Styling */
+.rich-text-content h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.rich-text-content h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+
+.rich-text-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.rich-text-content p {
+  margin-bottom: 1rem;
+}
+
+.rich-text-content ul {
+  list-style-type: disc;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.rich-text-content li {
+  margin-bottom: 0.25rem;
+}
+
+.rich-text-content a {
+  color: var(--bg-blue);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.rich-text-content a:hover {
+  color: var(--bg-pink);
+}
+
+.rich-text-container .ql-editor {
+  font-size: 1.25rem;
+  font-family: var(--font-sans);
+  min-height: 500px;
+}
+
+.rich-text-container .ql-toolbar {
+  border-bottom: 4px solid var(--border-color) !important;
+  background-color: var(--bg-primary);
+}
+.rich-text-container .ql-container {
+  font-size: 1.125rem;
+}
+
+/* Hide Scrollbar Globally */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -34,3 +34,22 @@ export const requireAuth = (req: AuthRequest, res: Response, next: NextFunction)
         res.status(401).json({ error: "Invalid or expired token." });
     }
 };
+
+/**
+ * Optional Auth Middleware:
+ * Tries to verify JWT if present, but won't block the request if absent.
+ */
+export const optionalAuth = (req: AuthRequest, res: Response, next: NextFunction): void => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return next();
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+        req.user = decoded;
+    } catch (error) {
+        // Ignore invalid token
+    }
+    next();
+};
