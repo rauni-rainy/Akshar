@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// User Profile Model
+// ==========================================
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String?  // Optional for Google users
+  realName    String
+  displayName String
+  dob         DateTime?
+  googleId    String?  @unique
+  bio         String?
+  avatar      String?  
+  country     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships (One User can have many Posts, Comments, and Reviews)
+  posts     Post[]
+  comments  Comment[]
+  reviews   Review[]
+  likes     Like[]
+  views     View[]
+  
+  followers Follows[] @relation("UserFollowers")
+  following Follows[] @relation("UserFollowing")
+  notifications Notification[] @relation("UserNotifications")
+}
+
+// ==========================================
+// Written Content Model (Article, Poem, Story)
+// ==========================================
+model Post {
+  id          String   @id @default(uuid())
+  title       String
+  content     String   
+  type        String   // e.g., "ARTICLE", "POEM", "STORY"
+  prompt      String?
+  tags        String[]
+  authorNote  String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  reviews     Review[]
+  likes       Like[]
+  views       View[]
+}
+
+// ==========================================
+// Reader Comments Model
+// ==========================================
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  // Threads
+  parentId  String?
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentToComment")
+
+  // Relationships
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+// ==========================================
+// Reader Reviews Model (e.g., 1-5 stars)
+// ==========================================
+model Review {
+  id          String   @id @default(uuid())
+  rating      Int      // 1 to 5
+  observe     String?  
+  interrogate String?
+  elevate     String?
+  creative    String?
+  annotations Json?    // Array of { quote: string, comment: string }
+  createdAt   DateTime @default(now())
+
+  // Relationships
+  postId      String
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  @@unique([authorId, postId])
+}
+
+// ==========================================
+// Post Likes Model
+// ==========================================
+model Like {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // Relationships
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
+
+// ==========================================
+// Post Views (Read History) Model
+// ==========================================
+model View {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // Relationships
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
+
+// ==========================================
+// User Following Network Model
+// ==========================================
+model Follows {
+  followerId  String
+  follower    User   @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followingId])
+}
+
+// ==========================================
+// Notifications Model
+// ==========================================
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   // The user receiving the notification
+  user      User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // e.g., "FOLLOW", "LIKE", "COMMENT"
+  message   String
+  isRead    Boolean  @default(false)
+  link      String?  
+  createdAt DateTime @default(now())
+}
